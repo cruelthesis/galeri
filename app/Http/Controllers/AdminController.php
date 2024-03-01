@@ -121,14 +121,14 @@ class AdminController extends Controller
                     'approval' => 1
                 ]);
 
-                return back();
+                return back()->with('success','berhasil menyetujui');
             }else{
 
                 User::where('id',$id)->update([
                     'approval' => '0'
                 ]);
 
-                return back();
+                return back()->with('alert','akun ditahan');
             }
         }
     }

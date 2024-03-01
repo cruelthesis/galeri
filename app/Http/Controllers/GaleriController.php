@@ -68,7 +68,7 @@ class GaleriController extends Controller
                 'user_id' => $user
             ]);
 
-            return back();
+            return back()->with('info', 'Postingan menunggu verifikasi admin, silahkan lihat di bagian menu Menunggu Persetujuan');
         }else{
 
             Galeri::create([
@@ -78,7 +78,8 @@ class GaleriController extends Controller
                 'tanggal' => now(),
                 'user_id' => $user
             ]);
-            return back();
+            return back()->with('info', 'Postingan menunggu verifikasi admin, silahkan lihat di bagian menu Menunggu Persetujuan');
+
 
         }
 
@@ -94,7 +95,7 @@ class GaleriController extends Controller
     public function show($id)
     {
         Galeri::where('id', '=', $id)->delete();
-        return back();
+        return back()->with('alert', 'berhasil hapus');
     }
 
     /**
@@ -141,7 +142,7 @@ class GaleriController extends Controller
             Galeri::where('id', $id)->update($data);
         }
 
-        return back();
+        return back()->with('success', 'berhasil update');
     }
 
     /**

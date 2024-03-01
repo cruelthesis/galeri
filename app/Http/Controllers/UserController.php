@@ -43,6 +43,16 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
+        $email = User::where('email', $request->email)->first();
+            if ($email) {
+                return back()->with('alert', 'Email sudah ada');
+            }
+        
+        $usn = User::where('username', $request->username)->first();
+        if ($usn) {
+            return back()->with('alert', 'Username sudah ada');
+        }
+        
         $data = $request->validate([
             'nama' => 'required',
             'username' => 'required | unique:users',
@@ -57,10 +67,20 @@ class UserController extends Controller
             'password' => Hash::make($data['password'])
         ]);
 
-        return redirect('/');
+        return redirect('/')->with('success', 'Register berhasil! silahkan tunggu untuk diverifikasi admin');
     }
 
     public function masuk(Request $request){
+        
+        $usn = User::where('username', $request->username)->first();
+        if (!$usn) {
+            return back()->with('alert', 'Username Belum Terdaftar');
+        }
+
+        if (!Hash::check($request->password, $usn->password)) {
+            return back()->with('alert', 'Password Yang Anda Masukan Salah');
+        }
+        
         if(Auth::attempt($request->only(['username','password']))){
             $user = Auth::user();
 
@@ -68,7 +88,7 @@ class UserController extends Controller
                 if($user->approval == 1){
                     return redirect('galeri');
                 }else{
-                    return redirect('/');
+                    return redirect('/')->with('info', 'Akun belum di-verifikasi admin');;
                 }
             }
         }

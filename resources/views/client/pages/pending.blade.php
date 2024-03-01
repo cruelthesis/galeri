@@ -2,13 +2,29 @@
 @section('userContent')
 <div class="content-header">
     <div class="container">
-    <div class="row mb-2">
-        <div class="col-sm-6">
-        <h1 class="m-0">Menunggu Persetujuan</h1>
-        </div><!-- /.col -->
-    </div><!-- /.row -->
+        <div class="row mb-2">
+            <div class="col-sm-6">
+            <h1 class="m-0">Menunggu Persetujuan</h1>
+            </div><!-- /.col -->
+        </div><!-- /.row -->
+        @if (session('alert'))
+        <div class="alert alert-danger">
+            {{ session('alert') }}
+        </div>
+        @endif
+        @if (session('info'))
+        <div class="alert alert-info">
+            {{ session('info') }}
+        </div>
+        @endif
+        @if (session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+        @endif
     </div><!-- /.container-fluid -->
 </div>
+
 
 <div class="content">
     <div class="container">

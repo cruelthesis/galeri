@@ -10,6 +10,21 @@
               <h1>Declined Post</h1>
             </div>
           </div>
+          @if (session('alert'))
+          <div class="alert alert-danger">
+              {{ session('alert') }}
+          </div>
+          @endif
+          @if (session('info'))
+          <div class="alert alert-info">
+              {{ session('info') }}
+          </div>
+          @endif
+          @if (session('success'))
+          <div class="alert alert-success">
+              {{ session('success') }}
+          </div>
+          @endif
         </div><!-- /.container-fluid -->
     </section>
 

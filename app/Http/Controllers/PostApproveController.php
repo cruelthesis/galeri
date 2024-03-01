@@ -102,7 +102,7 @@ class PostApproveController extends Controller
                     'status' => 'accept'
                 ]);
 
-                return back();
+                return back()->with('success','berhasil menyetujui');
             }
 
             if($status == 'decline'){
@@ -110,7 +110,7 @@ class PostApproveController extends Controller
                     'status' => 'decline'
                 ]);
 
-                return back();
+                return back()->with('alert','postingan ditolak');
             }
         }
         

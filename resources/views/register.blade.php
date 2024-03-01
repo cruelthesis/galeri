@@ -23,6 +23,21 @@
     </div>
     <div class="card-body">
       <p class="login-box-msg">Sign up to start your session</p>
+      @if (session('alert'))
+      <div class="alert alert-danger">
+        {{ session('alert') }}
+      </div>
+      @endif
+      @if (session('info'))
+      <div class="alert alert-info">
+        {{ session('info') }}
+      </div>
+      @endif
+      @if (session('success'))
+      <div class="alert alert-success">
+        {{ session('success') }}
+      </div>
+      @endif
 
       <form action="{{ url('daftar') }}" method="post">
         @csrf
