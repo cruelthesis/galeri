@@ -17,7 +17,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
         
                   <div class="card">
                     <div class="card-header">
@@ -48,9 +48,9 @@
                   </div>
                   <!-- /.card -->
                   <!-- /.card -->
-                </div>
+                </div> --}}
                 <!-- /.col -->
-                <div class="col-md-9">
+                <div class="col-md-12">
                   <div class="card card-primary card-outline" style="height: 400px;">
                     <div class="card-header">
                       <h3 class="card-title">Inbox</h3>
@@ -67,6 +67,7 @@
                                   <th>Username</th>
                                   <th>Judul</th>
                                   <th>Foto</th>
+                                  <th>Deskripsi</th>
                                   <th>Status</th>
                               </tr>
                           </thead>
@@ -75,89 +76,109 @@
                                 $no=1;
                             @endphp
                             @foreach ($data as $p)
-                                <tr>
-                                    <td>{{ $no++ }}</td>
-                                    <td>{{ $p->username }}</td>
-                                    <td>
-                                        <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
-                                            {{ $p->judul }}
-                                        </a>
-                                    </td>
-                                    <td>
-                                        <img src="{{ asset('img/'.$p->foto) }}" height="80" alt="">
-                                    </td>
-                                    <td>
-                                        <button type="button" class="btn btn-danger btn-xs">{{ $p->status }}</button>
-                                    </td>
-                                    <td>{{ $p->created_at->diffForHumans() }}</td>
-                                    <td>
-                                        <form action="{{ route('approve.update',$p->id) }}" method="POST">
-                                            @csrf
-                                            @method('PUT')
-                                            <button type="submit" name="status" value="accept" class="btn btn-success"><i class="fas fa-check-circle"></i></button>
-                                        </form>
-                                    </td>
-                                </tr>
+                            <tr>
+                                <td>{{ $no++ }}</td>
+                                <td><a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                  {{ $p->username }}
+                              </a></td>
+                                <td>
+                                  @if ($p->judul)
+                                  <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                    {{ $p->judul }}
+                                  </a>
+                                  @else
+                                  <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                    Tidak ada judul
+                                  </a>
+                                  @endif
+                                </td>
+                                <td>
+                                  @if ($p->foto)
+                                    <img src="{{ asset('img/'.$p->foto) }}" height="80" alt="">
+                                  </a>
+                                  @else
+                                    tidak ada foto
+                                  @endif
+                                </td>
+                                <td>
+                                  @if ($p->deskripsi)
+                                  <p class="text-truncate" style="max-width: 50px">
+                                    {{ $p->deskripsi }}</p>
+                                  </a>
+                                  @else
+                                    tidak ada deskripsi
+                                  @endif
+                                </td>
+                                <td>
+                                  <button type="button" class="btn btn-danger btn-xs">{{ $p->status }}</button>
+                                </td>
+                                <td>{{ $p->created_at->diffForHumans() }}</td>
+                                <td>
+                                    <form action="{{ route('approve.update',$p->id) }}" method="POST">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit" name="status" value="accept" class="btn btn-success"><i class="fas fa-check-circle"></i></button>
+                                    </form>
+                                </td>
+                            </tr>
 
 
 
 
-                                {{-- MODAL POST PREVIEW --}}
-                                <div class="modal fade" id="modal-preview{{ $p->id }}">
-                                    <div class="modal-dialog modal-lg">
-                                      <div class="modal-content">
-                                        <div class="modal-header">
-                                          <h4 class="modal-title">Preview Post</h4>
-                                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                          </button>
-                                        </div>
-                                        <div class="modal-body">
-
-                                            <div class="post">
-                                                <div class="user-block">
-                                                  @if ($p->fotoprofil)
-                                                  <img class="img-circle img-bordered-sm" src="{{ asset('img/'.$p->fotoprofil) }}" alt="user image">
-                                                  @endif
-                                                  @if (!$p->fotoprofil)
-                                                  <img class="img-circle img-bordered-sm" src="{{ asset('img/profil.jpg') }}" alt="user image">
-                                                  @endif
-                                                  <span class="username">
-                                                    <a href="#" class="link-black">{{$p->nama }}</a>
-                                                  </span>
-                                                  <span class="description">{{ $p->username }}</span>
-                                                </div>
-                                                <!-- /.user-block -->
-                                                <div class="row">
-                                                  <div class="col-sm-4">
-                          
-                                                  </div>
-                                                  <div class="col-sm-4 py-2">
-                                                    <img src="{{ asset('img/'.$p->foto) }}" alt="" class="img-fluid">
-                                                  </div>
-                                                  <div class="col-sm-4">
-                                                    
-                                                  </div>
-                                                </div>
-                                                <h6>{{ $p->judul }}</h6>
-                                                <p>
-                                                  {{ $p->deskripsi }}
-                                                </p>
-                          
-                        
-                          
-                                              </div>
-
-                                        </div>
-                                        <div class="modal-footer justify-content-between">
-                                          <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
-                                        </div>
-                                      </div>
-                                      <!-- /.modal-content -->
+                            {{-- MODAL POST PREVIEW --}}
+                            <div class="modal fade" id="modal-preview{{ $p->id }}">
+                                <div class="modal-dialog modal-lg">
+                                  <div class="modal-content">
+                                    <div class="modal-header">
+                                      <h4 class="modal-title">Preview Post</h4>
+                                      <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                      </button>
                                     </div>
-                                    <!-- /.modal-dialog -->
+                                    <div class="modal-body">
+
+                                        <div class="post">
+                                            <div class="user-block">
+                                              @if ($p->fotoprofil)
+                                              <img class="img-circle img-bordered-sm" src="{{ asset('img/'.$p->fotoprofil) }}" alt="user image">
+                                              @endif
+                                              @if (!$p->fotoprofil)
+                                              <img class="img-circle img-bordered-sm" src="{{ asset('img/profil.jpg') }}" alt="user image">
+                                              @endif
+                                              <span class="username">
+                                                <a href="#" class="link-black">{{$p->nama }}</a>
+                                              </span>
+                                              <span class="description">{{ $p->username }}</span>
+                                            </div>
+                                            <!-- /.user-block -->
+                                            <div class="row">
+                                              <div class="col-sm-4">
+                      
+                                              </div>
+                                              <div class="col-sm-4 py-2">
+                                                <img src="{{ asset('img/'.$p->foto) }}" alt="" class="img-fluid">
+                                              </div>
+                                              <div class="col-sm-4">
+                                                
+                                              </div>
+                                            </div>
+                                            <h6>{{ $p->judul }}</h6>
+                                            <p>
+                                              {{ $p->deskripsi }}
+                                            </p>
+                      
+                                          </div>
+
+                                    </div>
+                                    <div class="modal-footer justify-content-between">
+                                      <button type="button" class="btn btn-default" data-dismiss="modal">Tutup</button>
+                                    </div>
                                   </div>
-                                {{-- MODAL POST PREVIEW --}}
+                                  <!-- /.modal-content -->
+                                </div>
+                                <!-- /.modal-dialog -->
+                              </div>
+                            {{-- MODAL POST PREVIEW --}}
 
 
                             @endforeach

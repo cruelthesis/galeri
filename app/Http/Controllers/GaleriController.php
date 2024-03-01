@@ -33,7 +33,7 @@ class GaleriController extends Controller
         // ->orderBy('galeris.created_at')
         ->latest()->get();
         
-        return view('home', compact('galeri'));
+        return view('client.pages.index', compact('galeri'));
     }
 
     /**
@@ -153,5 +153,14 @@ class GaleriController extends Controller
     public function destroy(Galeri $galeri)
     {
         //
+    }
+
+    public function persetujuan(){
+
+        $user = Auth::user();
+        $galeri = Galeri::where('user_id', $user->id)->latest()->get();
+        $user = User::where('id', $user->id)->first();
+        
+        return view('client.pages.pending', compact('galeri','user'));
     }
 }

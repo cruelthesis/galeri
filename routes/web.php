@@ -49,7 +49,7 @@ Route::group(['middleware' => ['auth']], function(){
 
     Route::get('decline', [PostApproveController::class, 'indexDecline']);
 
-    
+    Route::get('izinPost', [GaleriController::class, 'persetujuan']);
 
 });
 

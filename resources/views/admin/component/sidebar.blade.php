@@ -44,7 +44,15 @@
             <a href="{{ url('approve') }}" class="nav-link">
               <i class="nav-icon fas fa-check-square"></i>
                 <p>
-                    Persetujuan Posting
+                    Menunggu Persetujuan
+                </p>
+            </a>
+          </div>
+          <div class="nav-item">
+            <a href="{{ url('decline') }}" class="nav-link">
+              <i class="nav-icon fas fa-trash"></i>
+                <p>
+                  Postingan dibatalkan
                 </p>
             </a>
           </div>

@@ -17,7 +17,7 @@
     <section class="content">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-md-3">
+                {{-- <div class="col-md-3">
         
                   <div class="card">
                     <div class="card-header">
@@ -48,9 +48,9 @@
                   </div>
                   <!-- /.card -->
                   <!-- /.card -->
-                </div>
+                </div> --}}
                 <!-- /.col -->
-                <div class="col-md-9">
+                <div class="col-md-12">
                   <div class="card card-primary card-outline" style="height: 400px;">
                     <div class="card-header">
                       <h3 class="card-title">Inbox</h3>
@@ -67,6 +67,7 @@
                                   <th>Username</th>
                                   <th>Judul</th>
                                   <th>Foto</th>
+                                  <th>deskripsi</th>
                                   <th>Status</th>
                               </tr>
                           </thead>
@@ -77,17 +78,39 @@
                             @foreach ($data as $p)
                                 <tr>
                                     <td>{{ $no++ }}</td>
-                                    <td>{{ $p->username }}</td>
+                                    <td><a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                      {{ $p->username }}
+                                  </a></td>
                                     <td>
-                                        <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
-                                            {{ $p->judul }}
-                                        </a>
+                                      @if ($p->judul)
+                                      <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                        {{ $p->judul }}
+                                      </a>
+                                      @else
+                                      <a href="" data-toggle="modal" data-target="#modal-preview{{ $p->id }}">
+                                        Tidak ada judul
+                                      </a>
+                                      @endif
                                     </td>
                                     <td>
+                                      @if ($p->foto)
                                         <img src="{{ asset('img/'.$p->foto) }}" height="80" alt="">
+                                      </a>
+                                      @else
+                                        tidak ada foto
+                                      @endif
                                     </td>
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-xs">{{ $p->status }}</button>
+                                      @if ($p->deskripsi)
+                                      <p class="text-truncate" style="max-width: 50px">
+                                        {{ $p->deskripsi }}</p>
+                                      </a>
+                                      @else
+                                        tidak ada deskripsi
+                                      @endif
+                                    </td>
+                                    <td>
+                                      <button type="button" class="btn btn-warning btn-xs">{{ $p->status }}</button>
                                     </td>
                                     <td>{{ $p->created_at->diffForHumans() }}</td>
                                     <td>
@@ -144,8 +167,6 @@
                                                 <p>
                                                   {{ $p->deskripsi }}
                                                 </p>
-                          
-                        
                           
                                               </div>
 
