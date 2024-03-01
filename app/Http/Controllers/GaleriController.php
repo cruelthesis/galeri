@@ -28,7 +28,7 @@ class GaleriController extends Controller
         ->where('user_id', $user)
         ->where('users.level', 'client')
         ->where('galeris.status', 'accept')
-        ->select('galeris.*','users.username','users.created_at as users.created', 'users.foto as users.fotoprofil')
+        ->select('galeris.*','users.username','users.fotoprofil','users.created_at as users.created')
         // ->select('galeris.created_at as galeris.tanggaldibuat', 'users.created_at as users.created_at')
         // ->orderBy('galeris.created_at')
         ->latest()->get();

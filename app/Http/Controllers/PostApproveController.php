@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
+use App\Models\Galeri;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AdminController extends Controller
+class PostApproveController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,9 +17,28 @@ class AdminController extends Controller
     {
         $user = Auth::user();
         if($user->level == 'admin'){
-            $userList = User::whereIn('level',['client'])->get();
-        
-            return view('admin.page.userList', compact('userList'));
+            $data = Galeri::join('users','users.id','=','galeris.user_id')
+            ->where('galeris.status','pending')
+            ->select('galeris.*', 'users.username', 'users.nama', 'users.fotoprofil')
+            ->get();
+            
+            return view('admin.page.approval', compact('data'));
+        }else{
+            return redirect('login/admin');
+        }
+    }
+
+    public function indexDecline(){
+        $user = Auth::user();
+        if($user->level == 'admin'){
+            $data = Galeri::join('users','users.id','=','galeris.user_id')
+            ->where('galeris.status','declined')
+            ->select('galeris.*', 'users.username', 'users.nama', 'users.fotoprofil')
+            ->get();
+            
+            return view('admin.page.decline', compact('data'));
+        }else{
+            return redirect('login/admin');
         }
     }
 
@@ -31,27 +50,6 @@ class AdminController extends Controller
     public function create()
     {
         //
-    }
-
-    public function tampilLogin(){
-        return view('admin.login');
-    }
-
-    public function login(Request $request){
-        if(Auth::attempt($request->only(['username','password']))){
-            $user = Auth::user();
-
-            if($user->level == 'admin'){
-                return redirect('admin');
-            }else{
-                return back();
-            }
-        }
-    }
-
-    public function logoutAdd(){
-        Auth::logout();
-        return redirect('login/admin');
     }
 
     /**
@@ -96,7 +94,26 @@ class AdminController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = Auth::user();
+        $status = $request->status;
+        if($user->level =='admin'){
+            if($status == 'accept'){
+                Galeri::where('id',$id)->update([
+                    'status' => 'accept'
+                ]);
+
+                return back();
+            }
+
+            if($status == 'decline'){
+                Galeri::where('id',$id)->update([
+                    'status' => 'decline'
+                ]);
+
+                return back();
+            }
+        }
+        
     }
 
     /**
@@ -109,33 +126,4 @@ class AdminController extends Controller
     {
         //
     }
-
-    public function approval($id){
-        $user = Auth::user();
-
-        if($user->level == 'admin'){
-            $approval = User::where('id',$id)->first();
-            if($approval->approval == '0'){
-
-                User::where('id',$id)->update([
-                    'approval' => 1
-                ]);
-
-                return back();
-            }else{
-
-                User::where('id',$id)->update([
-                    'approval' => '0'
-                ]);
-
-                return back();
-            }
-        }
-    }
-
-    public function logout(){
-        Auth::logout();
-        return redirect('login/admin');
-    }
-    
 }

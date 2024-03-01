@@ -186,12 +186,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
         <div class="row">
           <div class="col-md-3">
 
-            @if (Auth::user()->foto)
+            @if (Auth::user()->fotoprofil)
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img width="200" height="100" class="profile-user-img  img-circle img-circle"
-                       src="{{ asset('img/'.Auth::user()->foto) }}"
+                       src="{{ asset('img/'.Auth::user()->fotoprofil) }}"
                        alt="User profile picture">
                 </div>
 
@@ -204,12 +204,12 @@ scratch. This page gets rid of all links and provides the needed markup only.
             </div>
             @endif
 
-            @if (!Auth::user()->foto)
+            @if (!Auth::user()->fotoprofil)
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
                   <img class="profile-user-img img-fluid img-circle"
-                       src="{{ asset('img/profil.png') }}"
+                       src="{{ asset('img/profil.jpg') }}"
                        alt="User profile picture">
                 </div>
 
@@ -245,11 +245,11 @@ scratch. This page gets rid of all links and provides the needed markup only.
                     
                     <div class="post">
                       <div class="user-block">
-                        @if (Auth::user()->foto)
-                        <img class="img-circle img-bordered-sm" src="{{ asset('img/'.Auth::user()->foto) }}" alt="user image">
+                        @if (Auth::user()->fotoprofil)
+                        <img class="img-circle img-bordered-sm" src="{{ asset('img/'.Auth::user()->fotoprofil) }}" alt="user image">
                         @endif
-                        @if (!Auth::user()->foto)
-                        <img class="img-circle img-bordered-sm" src="{{ asset('img/profil.png') }}" alt="user image">
+                        @if (!Auth::user()->fotoprofil)
+                        <img class="img-circle img-bordered-sm" src="{{ asset('img/profil.jpg') }}" alt="user image">
                         @endif
                         <span class="username">
                           <a href="#">{{ Auth::user()->nama }}</a>

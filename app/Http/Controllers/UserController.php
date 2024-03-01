@@ -123,14 +123,14 @@ class UserController extends Controller
 
         if($request->foto && $request->password){
 
-            $namafile = $id."-".date('YmdHis').$request->file('foto')->getClientOriginalName();
+            $namafile = $id."-".date('YmdHis').$request->foto->getClientOriginalName();
             $request->foto->move(public_path('img'), $namafile);
 
             User::where('id',$id)->update([
                 'nama' => $request->nama,
                 'username' => $request->username,
                 'email' => $request->email,
-                'foto' => $namafile,
+                'fotoprofil' => $namafile,
                 'password' => Hash::make($request['password']),
 
             ]);
@@ -161,7 +161,7 @@ class UserController extends Controller
                 'nama' => $request->nama,
                 'username' => $request->username,
                 'email' => $request->email,
-                'foto' => $namafile,
+                'fotoprofil' => $namafile,
 
             ]);
 

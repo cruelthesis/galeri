@@ -47,7 +47,11 @@
                 <tr>
                   <td>{{ $no++ }}</td>
                   <td>
-                    <img src="{{ asset('img/'.$user->foto) }}" class="img-size-50 mr-3 img-circle" alt="">
+                    @if ($user->fotoprofil)
+                      <img src="{{ asset('img/'.$user->fotoprofil) }}" class="img-size-50 mr-3 img-circle" alt="">
+                      @elseif (!$user->fotoprofil)
+                      <img src="{{ asset('img/profil.jpg') }}" class="img-size-50 mr-3 img-circle" alt="">
+                    @endif
                   </td>
                   <td>{{ $user->nama }}</td>
                   <td>{{ $user->username }}</td>

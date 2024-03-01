@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\GaleriController;
+use App\Http\Controllers\PostApproveController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 
@@ -31,7 +32,7 @@ Route::get('logout', [UserController::class, 'logout']);
 Route::get('login/admin', [AdminController::class, 'tampilLogin']);
 Route::post('loginpost/admin', [AdminController::class, 'login']);
 
-Route::get('logoutAdd', [AdminController::class, 'logoutAdd']);
+Route::get('logoutAdmin', [AdminController::class, 'logout']);
 
 Route::group(['middleware' => ['auth']], function(){
 
@@ -43,6 +44,10 @@ Route::group(['middleware' => ['auth']], function(){
     Route::resource('admin', AdminController::class);
 
     Route::get('approval/{id}', [AdminController::class, 'approval']);
+
+    Route::resource('approve', PostApproveController::class);
+
+    Route::get('decline', [PostApproveController::class, 'indexDecline']);
 
     
 
